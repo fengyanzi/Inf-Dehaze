@@ -1,0 +1,57 @@
+# ============================================================
+# Inf-Dehaze — Default Configuration
+# ============================================================
+
+model:
+  base_dim: 96
+  patch_size: 2
+  crop_size: 256
+  channels_last: true
+
+  encoder:
+    num_stages: 4
+    depths: [2, 3, 4, 2]
+    num_heads: [2, 4, 8, 8]
+    window_size: 8
+    mlp_ratio: 4.0
+    drop_path_rate: 0.1
+    block_types: ["swin", "swin", "swin", "swin"]
+
+  bottleneck:
+    n_layers: 4
+    # "ibssa" → Intra-Block Sparse Self-Attention (IBSSA)
+    # "sa"    → standard scaled dot-product attention
+    # Every block includes a Local Modeling Mixture-of-Experts (LMMoE) branch.
+    layer_types: ["ibssa", "sa", "ibssa", "sa"]
+    num_heads: 8
+    mlp_ratio: 4
+    moe_scale: 0.1
+
+  decoder:
+    depths: []
+    num_heads: []
+    window_size: 8
+    mlp_ratio: 4.0
+    drop_path_rate: 0.1
+
+inference:
+  batch_size: 4
+  use_residual_cache: true
+  async_io: true
+
+training:
+  data_dir: ./datasets/8KDehaze
+  save_dir: ./checkpoints/train
+  save_cycle: 1
+  resume: null
+  lr: 0.0001
+  batch_size: 4
+  epochs: 100
+  normalize: false
+  amp: false
+  moe_loss_weight: 0.01
+
+dataset:
+  crop_size: 1024
+  normalize_mean: [0.45837133, 0.47633536, 0.44432645]
+  normalize_std: [0.16936361, 0.15927625, 0.15468806]

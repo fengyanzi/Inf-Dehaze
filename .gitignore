@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Training / inference outputs
+checkpoints/
+results/
+*.pth
+*.pt
+
+# Logs
+*.log
+output.txt
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Data (download separately)
+datasets/
