@@ -9,6 +9,7 @@ Official PyTorch implementation of **Inf-Dehaze**, a memory-efficient dehazing f
 
 Image dehazing is a fundamental computer vision task that aims to address image degradation caused by haze. Existing deep learning models have achieved remarkable performance on small or low-resolution images. However, with the continuous increase in imaging system resolution, removing haze from ultra-high-resolution images has become an urgent challenge in real-world applications. Due to GPU memory constraints, prior methods typically rely on patch-based inference, which disrupts global spatial consistency and introduces blocking artifacts.
 
+Unfortunately, the project source code was deliberately deleted by a senior member of the research group using rmrf. We have reconstructed the entire system based on some residual code with Claude's assistance, striving to maintain simplicity and elegance. The code may contain certain bugs and could differ somewhat from the implementation described in the paper.
 ---
 
 ## Overview
