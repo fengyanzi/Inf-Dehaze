@@ -9,14 +9,6 @@ Official PyTorch implementation of **Inf-Dehaze**, a memory-efficient dehazing f
 
 Image dehazing is a fundamental computer vision task that aims to address image degradation caused by haze. Existing deep learning models have achieved remarkable performance on small or low-resolution images. However, with the continuous increase in imaging system resolution, removing haze from ultra-high-resolution images has become an urgent challenge in real-world applications. Due to GPU memory constraints, prior methods typically rely on patch-based inference, which disrupts global spatial consistency and introduces blocking artifacts.
 
-**Inf-Dehaze** addresses this issue with:
-
-1. A customized **Swin encoder** to capture coarse haze distributions at patch level.
-2. An efficient **bottleneck** that fuses local details with global context via **IBSSA** (Intra-Block Sparse Self-Attention) and **LMMoE** (Local Modeling Mixture-of-Experts).
-3. A memory-friendly **inference framework** based on residual caching and asynchronous batch-based processing.
-
-Extensive experiments demonstrate that Inf-Dehaze can process images up to **20,000 × 20,000** pixels using only **~7.7 GB** GPU memory, achieving competitive speed and state-of-the-art performance.
-
 ---
 
 ## Overview
@@ -226,19 +218,7 @@ python infer.py \
 
 The script automatically pads the image so height and width are multiples of `crop_size` (256), then crops the output back to the original size.
 
-### Programmatic usage
 
-```python
-import torch
-from inf_dehaze import InfDehaze
-
-model = InfDehaze.from_config("./configs/dehaze_default.yaml")
-model.load_state_dict(torch.load("checkpoints/train/last.pth", weights_only=True))
-model.eval().half().cuda()
-
-with torch.no_grad():
-    output = model(hazy_tensor)  # (1, 3, H, W), H/W divisible by 256
-```
 
 ---
 
@@ -263,26 +243,15 @@ If you find this work useful, please cite:
 ```bibtex
 @InProceedings{Yan_2026_CVPR,
     author    = {Yan, Xinyu and Chen, Jiuchen and Xu, Qizhi},
-    title     = {Inf-Dehaze: Beyond {GPU} Memory Constraints for Ultra-High-Resolution Image Dehazing},
+    title     = {Inf-Dehaze: Beyond GPU Memory Constraints for Ultra-High-Resolution Image Dehazing},
     booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Findings},
     month     = {June},
     year      = {2026},
-    pages     = {5086--5095}
+    pages     = {5086-5095}
 }
 ```
 
-Related prior work:
 
-```bibtex
-@InProceedings{Chen_2025_CVPR,
-    author    = {Chen, Jiuchen and Yan, Xinyu and Xu, Qizhi and Li, Kaiqi},
-    title     = {Tokenize Image Patches: Global Context Fusion for Effective Haze Removal in Large Images},
-    booktitle = {Proceedings of the Computer Vision and Pattern Recognition Conference (CVPR)},
-    month     = {June},
-    year      = {2025},
-    pages     = {2258--2268}
-}
-```
 
 ---
 
